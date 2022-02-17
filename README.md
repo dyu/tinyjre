@@ -8,5 +8,5 @@ tiny jre for linus/macos/windows
 
 ## Release
 ```sh
-./release.sh v0.1.8u322 GITHUB_TOKEN
+./release.sh 0.1.8u322 GITHUB_TOKEN
 ```
