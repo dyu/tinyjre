@@ -1,0 +1,74 @@
+{
+  "reduce": [
+    {
+      "archive": "jre/lib/rt.jar",
+      "paths": [
+        "com/sun",
+        "com/oracle",
+        "java/awt",
+        "java/applet",
+        "java/beans",
+        "javax",
+        "org",
+        "sun/applet",
+        "sun/corba",
+        "sun/management",
+        "sun/audio",
+        "sun/awt",
+        "sun/beans",
+        "sun/font",
+        "sun/instrument",
+        "sun/invoke",
+        "sun/java2d",
+        "sun/launcher",
+        "sun/print",
+        "sun/rmi",
+        "sun/swing",
+        "sun/tracing",
+        "sun/security/x509",
+        "sun/security/validator",
+        "sun/security/tools",
+        "sun/security/smartcardio",
+        "sun/security/rsa",
+        "sun/security/provider",
+        "sun/security/pkcs12",
+        "sun/security/pkcs10",
+        "sun/security/pkcs",
+        "sun/security/krb5",
+        "sun/security/jgss",
+        "sun/security/ec",
+        "sunw"
+      ]
+    },
+    {
+      "archive": "jre/lib/charsets.jar",
+      "paths": [
+      ]
+    },
+    {
+      "archive": "jre/lib/jsse.jar",
+      "paths": [
+      ]
+    },
+    {
+      "archive": "jre/lib/resources.jar",
+      "paths": [
+      ]
+    }
+  ],
+  "remove": [
+    {
+      "platform": "*",
+      "paths": [
+        "jre/lib/rhino.jar"
+      ]
+    },
+    {
+      "platform": "windows",
+      "paths": [
+        "jre/bin/*.exe",
+        "jre/bin/client"
+      ]
+    }
+  ]
+}
