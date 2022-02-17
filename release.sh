@@ -33,7 +33,7 @@ cd $DIST_DIR
 upload_target(){
     UPLOAD_FILE=$1
     echo "### Uploading $UPLOAD_FILE"
-    ITHUB_TOKEN=$AUTH_TOKEN GITHUB_AUTH_USER=$AUTH_USER github-release upload \
+    GITHUB_TOKEN=$AUTH_TOKEN GITHUB_AUTH_USER=$AUTH_USER github-release upload \
         --user $REPO_USER \
         --repo $REPO_NAME \
         --tag v$DIST_VERSION \
