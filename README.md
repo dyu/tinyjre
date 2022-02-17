@@ -1,0 +1,2 @@
+# tinyjre
+Generates tiny jre
