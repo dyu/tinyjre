@@ -4,6 +4,7 @@ set -e
 
 BASE_DIR=$PWD
 
+mkdir -p dist
 cd target
 
 ID='8u322'
@@ -22,6 +23,7 @@ minify_linux_jre(){
 
 NAME=$1
 DIR="$BASE_DIR/target/$NAME"
+OUT_DIR="$DIR/jdk$ID-tiny"
 cat > $DIR/config.json <<EOF
 {
   "platform": "linux64",
@@ -36,10 +38,14 @@ cat > $DIR/config.json <<EOF
     "Xmx256G"
   ],
   "minimizejre": "$BASE_DIR/tiny.json",
-  "output": "$DIR/jdk$ID-tiny"
+  "output": "$OUT_DIR"
 }
 EOF
 java -jar $BASE_DIR/lib/packr-legacy.jar $DIR/config.json
+cd $OUT_DIR
+rm -r jre/lib/ext jre/bin
+tar -cvzf $BASE_DIR/dist/jre-$NAME.tar.gz jre
+cd - > /dev/null
 
 }
 
@@ -47,6 +53,7 @@ minify_macos_jre(){
 
 NAME=$1
 DIR="$BASE_DIR/target/$NAME"
+OUT_DIR="$DIR/jdk$ID-tiny"
 cat > $DIR/config.json <<EOF
 {
   "platform": "mac",
@@ -61,10 +68,14 @@ cat > $DIR/config.json <<EOF
     "Xmx256G"
   ],
   "minimizejre": "$BASE_DIR/tiny.json",
-  "output": "$DIR/jdk$ID-tiny"
+  "output": "$OUT_DIR"
 }
 EOF
 java -jar $BASE_DIR/lib/packr-legacy.jar $DIR/config.json
+cd $OUT_DIR/Contents/Resources
+rm -r jre/lib/ext jre/bin
+tar -cvzf $BASE_DIR/dist/jre-$NAME.tar.gz jre
+cd - > /dev/null
 
 }
 
@@ -72,6 +83,7 @@ minify_windows_jre(){
 
 NAME=$1
 DIR="$BASE_DIR/target/$NAME"
+OUT_DIR="$DIR/jdk$ID-tiny"
 cat > $DIR/config.json <<EOF
 {
   "platform": "windows64",
@@ -86,10 +98,14 @@ cat > $DIR/config.json <<EOF
     "Xmx256G"
   ],
   "minimizejre": "$BASE_DIR/tiny.json",
-  "output": "$DIR/jdk$ID-tiny"
+  "output": "$OUT_DIR"
 }
 EOF
 java -jar $BASE_DIR/lib/packr-legacy.jar $DIR/config.json
+cd $OUT_DIR
+rm -r jre/lib/ext
+zip -r $BASE_DIR/dist/jre-$NAME.zip jre
+cd - > /dev/null
 
 }
 
