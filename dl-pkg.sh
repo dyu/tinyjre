@@ -20,19 +20,51 @@ windows-amd64-lite.zip
 
 minify_linux_jre(){
 
-#TODO
 NAME=$1
 DIR="$BASE_DIR/target/$NAME"
-echo $DIR
+cat > $DIR/config.json <<EOF
+{
+  "platform": "linux64",
+  "jdk": "$DIR/jdk$ID-lite",
+  "executable": "example",
+  "classpath": [
+    "$BASE_DIR/lib/example.jar"
+  ],
+  "mainclass": "example.Main",
+  "vmargs": [
+    "Xms256G",
+    "Xmx256G"
+  ],
+  "minimizejre": "$BASE_DIR/tiny.json",
+  "output": "$DIR/jdk$ID-tiny"
+}
+EOF
+java -jar $BASE_DIR/lib/packr-legacy.jar $DIR/config.json
 
 }
 
 minify_macos_jre(){
 
-#TODO
 NAME=$1
 DIR="$BASE_DIR/target/$NAME"
-echo $DIR
+cat > $DIR/config.json <<EOF
+{
+  "platform": "mac",
+  "jdk": "$DIR/jdk$ID-lite.jdk",
+  "executable": "example",
+  "classpath": [
+    "$BASE_DIR/lib/example.jar"
+  ],
+  "mainclass": "example.Main",
+  "vmargs": [
+    "Xms256G",
+    "Xmx256G"
+  ],
+  "minimizejre": "$BASE_DIR/tiny.json",
+  "output": "$DIR/jdk$ID-tiny"
+}
+EOF
+java -jar $BASE_DIR/lib/packr-legacy.jar $DIR/config.json
 
 }
 
@@ -46,7 +78,7 @@ cat > $DIR/config.json <<EOF
   "jdk": "$DIR/jdk$ID-lite",
   "executable": "example",
   "classpath": [
-    "target/example.jar"
+    "$BASE_DIR/lib/example.jar"
   ],
   "mainclass": "example.Main",
   "vmargs": [
@@ -57,6 +89,7 @@ cat > $DIR/config.json <<EOF
   "output": "$DIR/jdk$ID-tiny"
 }
 EOF
+java -jar $BASE_DIR/lib/packr-legacy.jar $DIR/config.json
 
 }
 
@@ -66,31 +99,22 @@ for PKG in $PKGS; do
     [ -e "$PKG_FILE" ] || curl -LO "$URL_PREFIX$PKG_FILE"
     case "$PKG" in
         windows*)
-        if [ -e "$NAME/jdk$ID-lite/jre" ]; then
-            minify_windows_jre $NAME
-        else
+        [ ! -e "$NAME/jdk$ID-lite/jre" ] && \
             mkdir -p $NAME && cd $NAME && \
-            unzip ../$PKG_FILE && \
-            minify_windows_jre $NAME && cd - > /dev/null
-        fi
+            unzip ../$PKG_FILE && cd - > /dev/null
+        [ ! -e "$NAME/jdk$ID-tiny" ] && minify_windows_jre $NAME
         ;;
         macos*)
-        if [ -e "$NAME/jdk$ID-lite.jdk/jre" ]; then
-            minify_macos_jre $NAME
-        else
+        [ ! -e "$NAME/jdk$ID-lite.jdk/jre" ] && \
             mkdir -p $NAME && cd $NAME && \
-            tar -xvzf ../$PKG_FILE && \
-            minify_macos_jre $NAME && cd - > /dev/null
-        fi
+            tar -xvzf ../$PKG_FILE && cd - > /dev/null
+        [ ! -e "$NAME/jdk$ID-tiny" ] && minify_macos_jre $NAME
         ;;
         *)
-        if [ -e "$NAME/jdk$ID-lite/jre" ]; then
-            minify_linux_jre $NAME
-        else
+        [ ! -e "$NAME/jdk$ID-lite/jre" ] && \
             mkdir -p $NAME && cd $NAME && \
-            tar -xvzf ../$PKG_FILE && \
-            minify_linux_jre $NAME && cd - > /dev/null
-        fi
+            tar -xvzf ../$PKG_FILE && cd - > /dev/null
+        [ ! -e "$NAME/jdk$ID-tiny" ] && minify_linux_jre $NAME
         ;;
     esac
 done
