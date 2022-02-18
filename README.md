@@ -1,5 +1,5 @@
 # tinyjre
-tiny jre for linus/macos/windows
+tiny jre for linux/macos/windows
 
 ## Dist
 ```sh
