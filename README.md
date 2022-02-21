@@ -1,9 +1,9 @@
 # tinyjre
 tiny jre for linux/macos/windows
 
-## Dist
+## Dist (fetch and minify)
 ```sh
-./minify.sh
+./dist.sh
 ```
 
 ## Release
