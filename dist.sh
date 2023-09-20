@@ -4,10 +4,10 @@ set -e
 
 BASE_DIR=$PWD
 
-mkdir -p dist
+mkdir -p dist target
 cd target
 
-ID='8u322'
+ID='8u382'
 VERSION="$ID+6"
 URL_PREFIX="https://download.bell-sw.com/java/$VERSION/"
 PKG_PREFIX="bellsoft-jdk$VERSION-"
@@ -43,7 +43,8 @@ cat > $DIR/config.json <<EOF
 EOF
 java -jar $BASE_DIR/lib/packr-legacy.jar $DIR/config.json
 cd $OUT_DIR
-rm -r jre/lib/ext jre/bin
+#rm -r jre/lib/ext
+rm -r jre/bin
 tar -cvzf $BASE_DIR/dist/jre-$NAME.tar.gz jre
 cd - > /dev/null
 
@@ -73,7 +74,8 @@ cat > $DIR/config.json <<EOF
 EOF
 java -jar $BASE_DIR/lib/packr-legacy.jar $DIR/config.json
 cd $OUT_DIR/Contents/Resources
-rm -r jre/lib/ext jre/bin
+#rm -r jre/lib/ext
+rm -r jre/bin
 tar -cvzf $BASE_DIR/dist/jre-$NAME.tar.gz jre
 cd - > /dev/null
 
@@ -103,7 +105,7 @@ cat > $DIR/config.json <<EOF
 EOF
 java -jar $BASE_DIR/lib/packr-legacy.jar $DIR/config.json
 cd $OUT_DIR
-rm -r jre/lib/ext
+#rm -r jre/lib/ext
 zip -r $BASE_DIR/dist/jre-$NAME.zip jre
 cd - > /dev/null
 

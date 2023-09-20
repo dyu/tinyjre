@@ -41,11 +41,6 @@
       ]
     },
     {
-      "archive": "jre/lib/charsets.jar",
-      "paths": [
-      ]
-    },
-    {
       "archive": "jre/lib/jsse.jar",
       "paths": [
       ]
@@ -60,7 +55,14 @@
     {
       "platform": "*",
       "paths": [
-        "jre/lib/rhino.jar"
+        "jre/lib/rhino.jar",
+        "jre/lib/charsets.jar",
+        "jre/lib/ext/cldrdata.jar",
+        "jre/lib/ext/dnsns.jar",
+        "jre/lib/ext/jaccess.jar",
+        "jre/lib/ext/meta-index",
+        "jre/lib/ext/nashorn.jar",
+        "jre/lib/ext/zipfs.jar"
       ]
     },
     {
