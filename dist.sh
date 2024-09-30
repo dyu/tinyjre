@@ -7,7 +7,7 @@ BASE_DIR=$PWD
 mkdir -p dist target
 cd target
 
-ID='8u382'
+ID='8u422'
 VERSION="$ID+6"
 URL_PREFIX="https://download.bell-sw.com/java/$VERSION/"
 PKG_PREFIX="bellsoft-jdk$VERSION-"
