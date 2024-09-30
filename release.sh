@@ -30,10 +30,12 @@ AUTH_TOKEN=$2
 
 cd $DIST_DIR
 
+[ -z "$GITHUB_RELEASE" ] && GITHUB_RELEASE=github-release
+
 upload_target(){
     UPLOAD_FILE=$1
     echo "### Uploading $UPLOAD_FILE"
-    GITHUB_TOKEN=$AUTH_TOKEN GITHUB_AUTH_USER=$AUTH_USER github-release upload \
+    GITHUB_TOKEN=$AUTH_TOKEN GITHUB_AUTH_USER=$AUTH_USER $GITHUB_RELEASE upload \
         --user $REPO_USER \
         --repo $REPO_NAME \
         --tag v$DIST_VERSION \
@@ -42,7 +44,7 @@ upload_target(){
 }
 
 echo "# Tagging v$DIST_VERSION"
-GITHUB_TOKEN=$AUTH_TOKEN GITHUB_AUTH_USER=$AUTH_USER github-release release \
+GITHUB_TOKEN=$AUTH_TOKEN GITHUB_AUTH_USER=$AUTH_USER $GITHUB_RELEASE release \
     --user $REPO_USER \
     --repo $REPO_NAME \
     --tag v$DIST_VERSION \
