@@ -110,7 +110,7 @@ EOF
 java -jar $BASE_DIR/lib/packr-legacy.jar $DIR/config.json
 cd $OUT_DIR
 #rm -r jre/lib/ext
-zip -r $BASE_DIR/dist/jre-$NAME.zip jre
+zip -r "$BASE_DIR/dist/jre-${NAME%-*}.zip" jre
 cd - > /dev/null
 
 }
