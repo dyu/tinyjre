@@ -23,12 +23,13 @@ windows-x64-jdk.zip
 minify_linux_jre(){
 
 NAME=$1
+REL_HOME=$2
 DIR="$BASE_DIR/target/$NAME"
 OUT_DIR="$DIR/jdk$ID-tiny"
 cat > $DIR/config.json <<EOF
 {
   "platform": "linux64",
-  "jdk": "$DIR/jdk$ID-lite",
+  "jdk": "$DIR/$REL_HOME",
   "executable": "example",
   "classpath": [
     "$BASE_DIR/lib/example.jar"
@@ -133,11 +134,12 @@ for PKG in $PKGS; do
         tar -xvzf ../$PKG_FILE && cd - > /dev/null
         [ ! -e "$NAME/jdk$ID-tiny" ] && minify_macos_jre $NAME $REL_HOME
         ;;
-        # *)
-        # [ ! -e "$NAME/jdk$ID-lite/jre" ] && \
-        #     mkdir -p $NAME && cd $NAME && \
-        #     tar -xvzf ../$PKG_FILE && cd - > /dev/null
-        # [ ! -e "$NAME/jdk$ID-tiny" ] && minify_linux_jre $NAME
-        # ;;
+        *)
+        REL_HOME="amazon-corretto-$VERSION-$NAME"
+        [ ! -e "$NAME/$REL_HOME/jre" ] && \
+        mkdir -p $NAME && cd $NAME && \
+        tar -xvzf ../$PKG_FILE && cd - > /dev/null
+        [ ! -e "$NAME/jdk$ID-tiny" ] && minify_linux_jre $NAME $REL_HOME
+        ;;
     esac
 done
