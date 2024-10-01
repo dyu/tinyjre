@@ -54,12 +54,13 @@ cd - > /dev/null
 minify_macos_jre(){
 
 NAME=$1
+REL_HOME=$2
 DIR="$BASE_DIR/target/$NAME"
 OUT_DIR="$DIR/jdk$ID-tiny"
 cat > $DIR/config.json <<EOF
 {
   "platform": "mac",
-  "jdk": "$DIR/amazon-corretto-8.jdk/Contents/Home",
+  "jdk": "$DIR/$REL_HOME",
   "executable": "example",
   "classpath": [
     "$BASE_DIR/lib/example.jar"
@@ -85,12 +86,13 @@ cd - > /dev/null
 minify_windows_jre(){
 
 NAME=$1
+REL_HOME=$2
 DIR="$BASE_DIR/target/$NAME"
 OUT_DIR="$DIR/jdk$ID-tiny"
 cat > $DIR/config.json <<EOF
 {
   "platform": "windows64",
-  "jdk": "$DIR/jdk$ID-lite",
+  "jdk": "$DIR/$REL_HOME",
   "executable": "example",
   "classpath": [
     "$BASE_DIR/lib/example.jar"
@@ -117,17 +119,19 @@ for PKG in $PKGS; do
     NAME=${PKG%%.*}
     [ -e "$PKG_FILE" ] || curl -LO "$URL_PREFIX$PKG_FILE"
     case "$PKG" in
-        # windows*)
-        # [ ! -e "$NAME/jdk$ID-lite/jre" ] && \
-        #     mkdir -p $NAME && cd $NAME && \
-        #     unzip ../$PKG_FILE && cd - > /dev/null
-        # [ ! -e "$NAME/jdk$ID-tiny" ] && minify_windows_jre $NAME
-        # ;;
+        windows*)
+        REL_HOME="jdk1.8.0_${ID##*.}"
+        [ ! -e "$NAME/$REL_HOME/jre" ] && \
+        mkdir -p $NAME && cd $NAME && \
+        unzip ../$PKG_FILE && cd - > /dev/null
+        [ ! -e "$NAME/jdk$ID-tiny" ] && minify_windows_jre $NAME $REL_HOME
+        ;;
         macos*)
-        [ ! -e "$NAME/amazon-corretto-8.jdk/Contents/Home/jre" ] && \
+        REL_HOME='amazon-corretto-8.jdk/Contents/Home'
+        [ ! -e "$NAME/$REL_HOME/jre" ] && \
         mkdir -p $NAME && cd $NAME && \
         tar -xvzf ../$PKG_FILE && cd - > /dev/null
-        [ ! -e "$NAME/jdk$ID-tiny" ] && minify_macos_jre $NAME
+        [ ! -e "$NAME/jdk$ID-tiny" ] && minify_macos_jre $NAME $REL_HOME
         ;;
         # *)
         # [ ! -e "$NAME/jdk$ID-lite/jre" ] && \
