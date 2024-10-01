@@ -3,11 +3,11 @@
 set -e
 
 TARGETS='
-jre-linux-amd64-lite.tar.gz
-jre-linux-aarch64-lite.tar.gz
-jre-macos-amd64-lite.tar.gz
-jre-macos-aarch64-lite.tar.gz
-jre-windows-amd64-lite.zip
+jre-linux-x64.tar.gz
+jre-linux-aarch64.tar.gz
+jre-macosx-x64.tar.gz
+jre-macosx-aarch64.tar.gz
+jre-windows-x64.zip
 '
 
 for T in $TARGETS; do
