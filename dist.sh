@@ -8,16 +8,16 @@ mkdir -p dist target
 cd target
 
 ID=$1
-[ -z "$ID" ] && ID='8u422'
-VERSION="$ID+6"
-URL_PREFIX="https://download.bell-sw.com/java/$VERSION/"
-PKG_PREFIX="bellsoft-jdk$VERSION-"
+[ -z "$ID" ] && ID='8.422'
+VERSION="$ID.05.1"
+URL_PREFIX="https://corretto.aws/downloads/resources/$VERSION/"
+PKG_PREFIX="amazon-corretto-$VERSION-"
 PKGS='
-linux-amd64-lite.tar.gz
-linux-aarch64-lite.tar.gz
-macos-amd64-lite.tar.gz
-macos-aarch64-lite.tar.gz
-windows-amd64-lite.zip
+linux-x64.tar.gz
+linux-aarch64.tar.gz
+macosx-x64.tar.gz
+macosx-aarch64.tar.gz
+windows-x64-jdk.zip
 '
 
 minify_linux_jre(){
@@ -59,7 +59,7 @@ OUT_DIR="$DIR/jdk$ID-tiny"
 cat > $DIR/config.json <<EOF
 {
   "platform": "mac",
-  "jdk": "$DIR/jdk$ID-lite.jdk",
+  "jdk": "$DIR/amazon-corretto-8.jdk/Contents/Home",
   "executable": "example",
   "classpath": [
     "$BASE_DIR/lib/example.jar"
@@ -117,23 +117,23 @@ for PKG in $PKGS; do
     NAME=${PKG%%.*}
     [ -e "$PKG_FILE" ] || curl -LO "$URL_PREFIX$PKG_FILE"
     case "$PKG" in
-        windows*)
-        [ ! -e "$NAME/jdk$ID-lite/jre" ] && \
-            mkdir -p $NAME && cd $NAME && \
-            unzip ../$PKG_FILE && cd - > /dev/null
-        [ ! -e "$NAME/jdk$ID-tiny" ] && minify_windows_jre $NAME
-        ;;
+        # windows*)
+        # [ ! -e "$NAME/jdk$ID-lite/jre" ] && \
+        #     mkdir -p $NAME && cd $NAME && \
+        #     unzip ../$PKG_FILE && cd - > /dev/null
+        # [ ! -e "$NAME/jdk$ID-tiny" ] && minify_windows_jre $NAME
+        # ;;
         macos*)
-        [ ! -e "$NAME/jdk$ID-lite.jdk/jre" ] && \
-            mkdir -p $NAME && cd $NAME && \
-            tar -xvzf ../$PKG_FILE && cd - > /dev/null
+        [ ! -e "$NAME/amazon-corretto-8.jdk/Contents/Home/jre" ] && \
+        mkdir -p $NAME && cd $NAME && \
+        tar -xvzf ../$PKG_FILE && cd - > /dev/null
         [ ! -e "$NAME/jdk$ID-tiny" ] && minify_macos_jre $NAME
         ;;
-        *)
-        [ ! -e "$NAME/jdk$ID-lite/jre" ] && \
-            mkdir -p $NAME && cd $NAME && \
-            tar -xvzf ../$PKG_FILE && cd - > /dev/null
-        [ ! -e "$NAME/jdk$ID-tiny" ] && minify_linux_jre $NAME
-        ;;
+        # *)
+        # [ ! -e "$NAME/jdk$ID-lite/jre" ] && \
+        #     mkdir -p $NAME && cd $NAME && \
+        #     tar -xvzf ../$PKG_FILE && cd - > /dev/null
+        # [ ! -e "$NAME/jdk$ID-tiny" ] && minify_linux_jre $NAME
+        # ;;
     esac
 done
