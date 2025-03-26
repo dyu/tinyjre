@@ -8,8 +8,8 @@ mkdir -p dist target
 cd target
 
 ID=$1
-[ -z "$ID" ] && ID='8.422'
-VERSION="$ID.05.1"
+[ -z "$ID" ] && ID='8.442'
+VERSION="$ID.06.1"
 URL_PREFIX="https://corretto.aws/downloads/resources/$VERSION/"
 PKG_PREFIX="amazon-corretto-$VERSION-"
 PKGS='
